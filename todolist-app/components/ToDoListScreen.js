@@ -17,18 +17,25 @@ export default function ToDoListScreen({ tasks, setTaskItems }) {
     setTaskItems(updatedTasks);  // Update the task list
   };
 
-  // Function to delete all done tasks
-  const deleteDoneTasks = () => {
-    const updatedTasks = tasks.filter(task => !task.done);  // Remove only tasks that are done
-    setTaskItems(updatedTasks);  // Update the task list
+  // Navigate to the EditTaskScreen, passing the task to be edited
+  const handleEditTask = (task) => {
+    navigation.navigate('Edit Task', { task, setTaskItems, tasks });
   };
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={item.done ? styles.doneTask : styles.task}>{item.title}</Text>
-      <TouchableOpacity style={styles.checkbox} onPress={() => toggleTask(item.id)}>
-        <Text>{item.done ? <MaterialIcons name="check" size={15} color="black" /> : null}</Text>
-      </TouchableOpacity>
+      <View style={styles.actions}>
+        {/* Checkbox to toggle task completion */}
+        <TouchableOpacity style={styles.checkbox} onPress={() => toggleTask(item.id)}>
+          <Text>{item.done ? <MaterialIcons name="check" size={15} color="black" /> : null}</Text>
+        </TouchableOpacity>
+
+        {/* Edit button to navigate to the EditTaskScreen */}
+        <TouchableOpacity style={styles.editButton} onPress={() => handleEditTask(item)}>
+          <MaterialIcons name="edit" size={20} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -44,7 +51,7 @@ export default function ToDoListScreen({ tasks, setTaskItems }) {
         {/* Button to delete all done tasks */}
         <TouchableOpacity
           style={styles.deleteButton}
-          onPress={deleteDoneTasks}>
+          onPress={() => setTaskItems(tasks.filter(task => !task.done))}>
           <Text style={styles.deleteText}>🗑️ Delete Done Tasks</Text>
         </TouchableOpacity>
         
@@ -71,19 +78,26 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderColor: '#C0C0C0',
     borderWidth: 1,
-   },
+  },
   task: { fontSize: 18 },
   doneTask: { fontSize: 18, textDecorationLine: 'line-through', color: 'gray' },
   checkbox: { 
-    width: 20, // Adjust the size to your needs
+    width: 20,
     height: 20,
     backgroundColor: '#fff',
     borderWidth: 2,
     borderColor: '#000',
-    borderRadius: 4, // Makes it a square with rounded corners
+    borderRadius: 4,
+    marginRight: 5,
+  },
+  actions: {
     flexDirection: 'row',
-    marginRight: 5
-   },
+    alignItems: 'center',
+  },
+  editButton: {
+    marginLeft: 10,
+    padding: 5,
+  },
   bottomActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',

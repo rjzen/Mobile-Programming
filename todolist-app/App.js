@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ToDoListScreen from './components/ToDoListScreen';
 import CreateTaskScreen from './components/CreateTaskScreen';
+import EditTaskScreen from './components/EditTaskScreen'; // Import EditTaskScreen
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,13 @@ export default function App() {
           options={{ title: 'Create Task' }}
         >
           {props => <CreateTaskScreen {...props} addTask={handleAddTask} />}
+        </Stack.Screen>
+
+        <Stack.Screen
+          name="Edit Task" // Add the Edit Task screen
+          options={{ title: 'Edit Task' }}
+        >
+          {props => <EditTaskScreen {...props} tasks={taskItems} setTaskItems={setTaskItems} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
