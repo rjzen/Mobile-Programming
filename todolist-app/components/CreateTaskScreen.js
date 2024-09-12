@@ -8,8 +8,8 @@ export default function CreateTaskScreen({ addTask }) {
 
   const handleCreate = () => {
     if (taskName.trim()) {
-      addTask(taskName);  // Add the new task to the list
-      navigation.goBack();  // Go back to the ToDoListScreen
+      addTask(taskName);  
+      navigation.goBack();  
     }
   };
 

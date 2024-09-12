@@ -11,8 +11,8 @@ export default function EditTaskScreen() {
   const handleSave = () => {
     if (taskName.trim()) {
       const updatedTasks = tasks.map(t => t.id === task.id ? { ...t, title: taskName } : t);
-      setTaskItems(updatedTasks);  // Update the task list with the edited task
-      navigation.goBack();  // Navigate back to the ToDoListScreen
+      setTaskItems(updatedTasks);  
+      navigation.goBack();  
     }
   };
 

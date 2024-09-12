@@ -18,11 +18,11 @@ export default function ToDoListScreen({ tasks, setTaskItems }) {
   const toggleTask = (taskId) => {
     const updatedTasks = tasks.map(task => {
       if (task.id === taskId) {
-        return { ...task, done: !task.done };  // Toggle the 'done' state
+        return { ...task, done: !task.done };  
       }
       return task;
     });
-    setTaskItems(updatedTasks);  // Update the task list
+    setTaskItems(updatedTasks); 
   };
 
   // Navigate to the EditTaskScreen, passing the task to be edited
@@ -53,11 +53,11 @@ export default function ToDoListScreen({ tasks, setTaskItems }) {
         <TextInput
           placeholder="Search"
           value={searchTerm}
-          onChangeText={setSearchTerm}  // Update search term as user types
+          onChangeText={setSearchTerm}  
         />
       </View>
       <FlatList
-        data={handleSearch()}  // Filtered tasks based on search term
+        data={handleSearch()}  
         keyExtractor={item => item.id.toString()}
         renderItem={renderItem}
       />
