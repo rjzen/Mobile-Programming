@@ -1,10 +1,18 @@
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function ToDoListScreen({ tasks, setTaskItems }) {
   const navigation = useNavigation();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Function to filter tasks based on search term
+  const handleSearch = () => {
+    return tasks.filter(task =>
+      task.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
 
   // Function to toggle the task's 'done' state
   const toggleTask = (taskId) => {
@@ -41,9 +49,16 @@ export default function ToDoListScreen({ tasks, setTaskItems }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.searchBar}>
+        <TextInput
+          placeholder="Search"
+          value={searchTerm}
+          onChangeText={setSearchTerm}  // Update search term as user types
+        />
+      </View>
       <FlatList
-        data={tasks}
-        keyExtractor={item => item.id}
+        data={handleSearch()}  // Filtered tasks based on search term
+        keyExtractor={item => item.id.toString()}
         renderItem={renderItem}
       />
       
@@ -121,4 +136,17 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   deleteText: { fontSize: 18, color: 'black' },
+  searchBar: {
+    borderWidth: 2,
+    borderColor: "#000",
+    padding: 4,
+    borderRadius: 10,
+    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button: {
+    padding: 2,
+    marginRight: 5,
+  },
 });
